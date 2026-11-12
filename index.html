@@ -2,122 +2,49 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>สรุปการประชุมชมรมอิสลาฮุดดีน ณ กรุงไคโร</title>
-<style>
-:root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mute:#6b6a64;--line:#e2e0d8;--acc:#1d6b57;--accbg:#e3f1ec;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161715;--card:#202220;--ink:#ecebe6;--mute:#9a9990;--line:#33352f;--acc:#6fcfb2;--accbg:#1f3a32}}
-:root[data-theme="dark"]{--bg:#161715;--card:#202220;--ink:#ecebe6;--mute:#9a9990;--line:#33352f;--acc:#6fcfb2;--accbg:#1f3a32}
-html{color-scheme:light dark;scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans Thai","Sarabun",system-ui,sans-serif;line-height:1.5}
-header{padding:20px 16px 8px;max-width:1200px;margin:auto}
-h1{margin:0;font-size:1.5rem}
-header p{margin:4px 0 0;color:var(--mute);font-size:.95rem}
-main{max-width:1200px;margin:auto;padding:12px 16px 24px;display:grid;grid-template-columns:340px 1fr;gap:16px}
-@media(max-width:800px){main{grid-template-columns:1fr}}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.tools{padding:12px;display:flex;gap:8px;border-bottom:1px solid var(--line)}
-input[type=search],select{flex:1;min-width:0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
-select{flex:0 0 auto}
-ul{list-style:none;margin:0;padding:0;max-height:70vh;overflow:auto}
-@media(max-width:800px){ul{max-height:260px}}
-li button{all:unset;display:block;width:100%;padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer}
-li button:hover{background:var(--bg)}
-li button[aria-current=true]{background:var(--accbg);box-shadow:inset 3px 0 var(--acc)}
-.t{font-weight:600}.d{font-size:.85rem;color:var(--mute)}.s{font-size:.85rem;margin-top:2px}
-.badge{font-size:.72rem;color:var(--mute);border:1px solid var(--line);border-radius:99px;padding:0 7px;margin-left:6px}
-.viewer{display:flex;flex-direction:column;min-height:75vh}
-.bar{display:flex;gap:8px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-.bar strong{flex:1;min-width:140px}
-.btn{padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:.9rem;cursor:pointer;text-decoration:none}
-.btn.p{background:var(--acc);color:var(--card);border-color:var(--acc)}
-iframe{flex:1;width:100%;border:0;min-height:68vh;background:#888}
-.empty{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--mute);padding:24px}
-[hidden]{display:none!important}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Islahuddeen Cairo Meeting</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
-<body>
-<header>
-  <h1>📋 สรุปการประชุมชมรมอิสลาฮุดดีน ณ กรุงไคโร</h1>
-  <p>เลือกการประชุมจากรายการด้านซ้าย เพื่ออ่านรายงานเป็น PDF</p>
-</header>
-<main>
-  <section class="panel" aria-label="รายการประชุม">
-    <div class="tools">
-      <input type="search" id="q" placeholder="ค้นหาการประชุม…" aria-label="ค้นหา">
-      <select id="yr" aria-label="ปี"></select>
-    </div>
-    <ul id="list"></ul>
-  </section>
-  <section class="panel viewer" aria-label="ตัวอ่านเอกสาร">
-    <div class="bar" id="bar" hidden>
-      <strong id="vt"></strong>
-      <a class="btn" id="open" target="_blank" rel="noopener">เปิดแท็บใหม่</a>
-      <a class="btn p" id="dl" download>ดาวน์โหลด</a>
-    </div>
-    <div class="empty" id="empty">เลือกการประชุมจากรายการเพื่อเริ่มอ่าน</div>
-    <iframe id="frame" title="เอกสารการประชุม" hidden></iframe>
-    <div class="empty" id="nofile" hidden>
-      <div>ยังไม่มีไฟล์ PDF ของการประชุมนี้<br><br>
-      <label class="btn">ทดลองเลือกไฟล์ PDF จากเครื่อง<input type="file" id="pick" accept="application/pdf" hidden></label>
-      <p style="font-size:.8rem">(ใช้ทดสอบเท่านั้น ไฟล์จะไม่ถูกบันทึกบนเว็บ)</p></div>
-    </div>
-  </section>
-</main>
+<body style="font-family:sans-serif;max-width:900px;margin:auto;padding:16px">
+  <h1>Islahuddeen Cairo Meeting</h1>
+
+  <p>เลือกการประชุม:
+    <select onchange="openPdf(this.value)">
+      <option value="">-- เลือก --</option>
+      <option value="pdf/zakfork-2025-2026.pdf">การประชุมซักฟอก ประจำปีการศึกษา 2025/2026 (12 พ.ย. 69)</option>
+    </select>
+  </p>
+
+  <div id="pages" style="background:#ddd;padding:8px"></div>
+
 <script>
-/* ====== แก้ไขรายการประชุมตรงนี้ ======
-   file: ใส่ลิงก์ PDF หรือข้อมูล data:application/pdf;base64,... หรือ null ถ้ายังไม่มี */
-const MEETINGS=[
-     {date:"2026-11-12",title:"การประชุมซักฟอก ประจำปีการศึกษา 2025/2026",summary:"การประชุมซักฟอกประจำปีการศึกษา 2025/2026",file:"pdf/zakfork-2025-2026.pdf"}
-];
-const $=id=>document.getElementById(id);
-const fmt=d=>new Date(d).toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"});
-const url=f=>{
-  if(!f)return null;
-  if(f.startsWith("data:application/pdf;base64,")){
-    try{const b=atob(f.split(",")[1]),a=new Uint8Array(b.length);
-      for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);
-      return URL.createObjectURL(new Blob([a],{type:"application/pdf"}));}catch(e){return null}
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+async function openPdf(url){
+  const box = document.getElementById("pages");
+  box.innerHTML = "";
+  if(!url) return;
+  box.textContent = "กำลังโหลด...";
+  try{
+    const pdf = await pdfjsLib.getDocument(url).promise;
+    box.innerHTML = "";
+    const w = box.clientWidth - 16, dpr = window.devicePixelRatio || 1;
+    for(let i = 1; i <= pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const base = page.getViewport({scale:1});
+      const vp = page.getViewport({scale: w / base.width * dpr});
+      const c = document.createElement("canvas");
+      c.width = vp.width; c.height = vp.height;
+      c.style.cssText = "width:100%;display:block;margin-bottom:8px";
+      box.appendChild(c);
+      await page.render({canvasContext:c.getContext("2d"), viewport:vp}).promise;
+    }
+  }catch(e){
+    box.textContent = "เปิดไฟล์ไม่ได้: " + e.message;
   }
-  return f;
-};
-let sel=null;
-const years=[...new Set(MEETINGS.map(m=>new Date(m.date).getFullYear()))].sort((a,b)=>b-a);
-$("yr").innerHTML='<option value="">ทุกปี</option>'+years.map(y=>`<option value="${y}">พ.ศ. ${y+543}</option>`).join("");
-function render(){
-  const q=$("q").value.trim().toLowerCase(),y=$("yr").value;
-  const rows=MEETINGS.filter(m=>(!y||new Date(m.date).getFullYear()==y)&&(m.title+m.summary).toLowerCase().includes(q));
-  const ul=$("list");ul.innerHTML="";
-  if(!rows.length){ul.innerHTML='<li style="padding:16px;color:var(--mute)">ไม่พบรายการ</li>';return}
-  rows.forEach(m=>{
-    const li=document.createElement("li"),b=document.createElement("button");
-    b.setAttribute("aria-current",m===sel);
-    const t=document.createElement("div");t.className="t";t.textContent=m.title;
-    if(!m.file){const s=document.createElement("span");s.className="badge";s.textContent="ยังไม่มีไฟล์";t.append(s)}
-    const d=document.createElement("div");d.className="d";d.textContent=fmt(m.date);
-    const s=document.createElement("div");s.className="s";s.textContent=m.summary;
-    b.append(t,d,s);b.onclick=()=>choose(m);li.append(b);ul.append(li);
-  });
 }
-function choose(m){
-  sel=m;render();
-  $("bar").hidden=false;$("vt").textContent=m.title+" · "+fmt(m.date);
-  $("empty").hidden=true;
-  const u=m._u||(m._u=url(m.file));
-  $("frame").hidden=!u;$("nofile").hidden=!!u;
-  $("open").hidden=$("dl").hidden=!u;
-  if(u){$("frame").src=u;$("open").href=u;$("dl").href=u;$("dl").download=m.title+".pdf"}
-  else $("frame").removeAttribute("src");
-  if(innerWidth<=800)$("bar").scrollIntoView({behavior:"smooth"});
-}
-$("pick").onchange=e=>{
-  const f=e.target.files[0];if(!f||!sel)return;
-  sel._u=URL.createObjectURL(f);sel.file="local";choose(sel);
-};
-$("q").oninput=render;$("yr").onchange=render;
-render();
 </script>
 </body>
 </html>
