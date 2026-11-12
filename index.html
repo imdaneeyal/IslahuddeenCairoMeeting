@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Islahuddeen Cairo Meeting</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
-<body style="font-family:sans-serif;max-width:900px;margin:auto;padding:16px">
+<body style="font-family:sans-serif;max-width:1000px;margin:auto;padding:16px">
   <h1>Islahuddeen Cairo Meeting</h1>
 
   <p>เลือกการประชุม:
@@ -16,34 +15,15 @@
     </select>
   </p>
 
-  <div id="pages" style="background:#ddd;padding:8px"></div>
+  <iframe id="viewer" hidden
+    style="width:100%;height:85vh;border:1px solid #ccc"></iframe>
 
 <script>
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-async function openPdf(url){
-  const box = document.getElementById("pages");
-  box.innerHTML = "";
-  if(!url) return;
-  box.textContent = "กำลังโหลด...";
-  try{
-    const pdf = await pdfjsLib.getDocument(url).promise;
-    box.innerHTML = "";
-    const w = box.clientWidth - 16, dpr = window.devicePixelRatio || 1;
-    for(let i = 1; i <= pdf.numPages; i++){
-      const page = await pdf.getPage(i);
-      const base = page.getViewport({scale:1});
-      const vp = page.getViewport({scale: w / base.width * dpr});
-      const c = document.createElement("canvas");
-      c.width = vp.width; c.height = vp.height;
-      c.style.cssText = "width:100%;display:block;margin-bottom:8px";
-      box.appendChild(c);
-      await page.render({canvasContext:c.getContext("2d"), viewport:vp}).promise;
-    }
-  }catch(e){
-    box.textContent = "เปิดไฟล์ไม่ได้: " + e.message;
-  }
+function openPdf(file){
+  const v = document.getElementById("viewer");
+  if(!file){ v.hidden = true; return; }
+  v.hidden = false;
+  v.src = "pdfjs/web/viewer.html?file=" + encodeURIComponent("../../" + file);
 }
 </script>
 </body>
